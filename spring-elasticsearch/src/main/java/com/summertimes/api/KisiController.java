@@ -24,18 +24,33 @@ public class KisiController {
     @PostConstruct
     public void init(){
         Kisi kisi =new Kisi();
-        kisi.setAd("Hilal");
-        kisi.setSoyad("Deneme");
+        kisi.setAd("Elif");
+        kisi.setSoyad("Taş");
         kisi.setAdres("test");
         kisi.setDogumTarihi("25.03.1995");
-        kisi.setId("K0002");
+        kisi.setId("K0003");
+
         kisiRepository.save(kisi);
+        Kisi kisi2 =new Kisi();
+        kisi2.setAd("Ahmet");
+        kisi2.setSoyad("Gürbüz");
+        kisi2.setAdres("test");
+        kisi2.setDogumTarihi("25.03.1993");
+        kisi2.setId("K0004");
+        kisiRepository.save(kisi2);
     }
 
+    /*
     @GetMapping("/{search}")
     public ResponseEntity<List<Kisi>> getKisi(@PathVariable String search) {
         List<Kisi> kisiler = kisiRepository.getByCustomQuery(search);
         return ResponseEntity.ok(kisiler);
     }
 
+     */
+    @GetMapping("/{search}")
+    public ResponseEntity<List<Kisi>> getKisi(@PathVariable String search) {
+        List<Kisi> kisiler = kisiRepository.findByAdLikeOrSoyadLike(search, search);
+        return ResponseEntity.ok(kisiler);
+    }
 }
